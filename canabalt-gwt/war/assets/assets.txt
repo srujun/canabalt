@@ -1,0 +1,10 @@
+d::0:application/unknown
+d:fonts:0:application/unknown
+t:fonts/visitor-32.fnt:11628:application/unknown
+i:fonts/visitor-32.png:3533:image/png
+t:fonts/visitor-tt2-32.fnt:11596:application/unknown
+i:fonts/visitor-tt2-32.png:3668:image/png
+t:com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl:2947:application/unknown
+t:com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl:7873:application/unknown
+t:com/badlogic/gdx/utils/arial-15.fnt:21743:application/unknown
+i:com/badlogic/gdx/utils/arial-15.png:21814:image/png
