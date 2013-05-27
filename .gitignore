@@ -18,3 +18,11 @@ canabalt-android/gen/
 
 # Local configuration file (sdk path, etc)
 local.properties
+
+# GWT ignores
+canabalt-gwt/.gwt/*
+canabalt-gwt/gwt-unitCache
+classes/
+deploy/
+
+*~
