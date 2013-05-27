@@ -51,15 +51,15 @@ public class WorldRenderer {
 			font.draw(spriteBatch, "# Buildings: " + world.buildingsArray.size(), 0, 640);
 		spriteBatch.end();
 		
-		shapeBatch.begin(ShapeType.FilledRectangle);
+		shapeBatch.begin(ShapeType.Filled);
 			shapeBatch.setColor(1f, 1f, 1f, 1f);
-			shapeBatch.filledRect(world.player.bounds.x, world.player.bounds.y, world.player.bounds.width, world.player.bounds.height);
+			shapeBatch.rect(world.player.bounds.x, world.player.bounds.y, world.player.bounds.width, world.player.bounds.height);
 		shapeBatch.end();
 			
 		for(Building building: world.buildingsArray) {
-			shapeBatch.begin(ShapeType.FilledRectangle);
+			shapeBatch.begin(ShapeType.Filled);
 				shapeBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
-				shapeBatch.filledRect(building.bounds.x, building.bounds.y, building.bounds.width, building.bounds.height);
+				shapeBatch.rect(building.bounds.x, building.bounds.y, building.bounds.width, building.bounds.height);
 			shapeBatch.end();
 		
 			spriteBatch.begin();
