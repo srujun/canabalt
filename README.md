@@ -3,7 +3,9 @@ Canabalt
 
 ### A clone of the famous runner by Adam Atomic
 
-The original game is here: [adamatomic.com/canabalt/](http://adamatomic.com/canabalt/ "Canabalt Game")
+Play it online here: [srujun.com/canabalt/](http://srujun.com/canabalt/ "Canabalt online build")
+
+The original game is here: [adamatomic.com/canabalt/](http://adamatomic.com/canabalt/ "Original Canabalt Game")
 
 This is a project by Srujun Gupta/Crypton Labs created for the purpose of learning game creation. All assets and code are free to use and distribute.
 
