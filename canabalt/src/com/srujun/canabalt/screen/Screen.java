@@ -1,6 +1,7 @@
 package com.srujun.canabalt.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 
 public class Screen implements com.badlogic.gdx.Screen {
@@ -9,6 +10,9 @@ public class Screen implements com.badlogic.gdx.Screen {
 	public void render(float delta) {
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		
+		if(Gdx.input.isKeyPressed(Keys.ESCAPE))
+			Gdx.app.exit();
 	}
 
 	@Override
