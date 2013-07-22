@@ -2,18 +2,15 @@ package com.srujun.canabalt.renderer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-
 import com.srujun.canabalt.entities.Building;
 import com.srujun.canabalt.entities.World;
 
 public class WorldRenderer {
 
-	OrthographicCamera camera;
 	ShapeRenderer shapeBatch;
 	SpriteBatch spriteBatch;
 	
@@ -31,9 +28,6 @@ public class WorldRenderer {
 	public void create() {
 		Gdx.app.log("Canabalt", "WorldRenderer.create()");
 		
-		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		camera.setToOrtho(false);
-		
 		shapeBatch = new ShapeRenderer();
 		spriteBatch = new SpriteBatch();
 		
@@ -43,37 +37,42 @@ public class WorldRenderer {
 	public void render(float delta) {
 		fps.log();
 		
-		shapeBatch.setProjectionMatrix(camera.combined);
-		spriteBatch.setProjectionMatrix(camera.combined);
-		camera.update();
+		shapeBatch.setProjectionMatrix(world.camera.combined);
+		spriteBatch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		
+		world.camera.update();
 		
 		spriteBatch.begin();
-			font.draw(spriteBatch, "# Buildings: " + world.buildingsArray.size(), 0, 640);
+			font.draw(spriteBatch, "# Buildings: " + world.buildings.size(), 0, 640);
 		spriteBatch.end();
 		
-		shapeBatch.begin(ShapeType.Filled);
-			shapeBatch.setColor(1f, 1f, 1f, 1f);
-			shapeBatch.rect(world.player.bounds.x, world.player.bounds.y, world.player.bounds.width, world.player.bounds.height);
-		shapeBatch.end();
-			
-		for(Building building: world.buildingsArray) {
+		spriteBatch.setProjectionMatrix(world.camera.combined);
+		
+		for(Building building: world.buildings) {
 			shapeBatch.begin(ShapeType.Filled);
 				shapeBatch.setColor(0.5f, 0.5f, 0.5f, 1f);
 				shapeBatch.rect(building.bounds.x, building.bounds.y, building.bounds.width, building.bounds.height);
 			shapeBatch.end();
 		
 			spriteBatch.begin();
-				shapeBatch.setColor(1f, 1f, 1f, 1f);
-				font.draw(spriteBatch,
-					"X: " + building.bounds.x + ", Y: " + building.bounds.y,
+				font.draw(spriteBatch, "Building #" + (world.buildings.indexOf(building) + 1),
+						building.bounds.x, building.bounds.y + 48f);
+				font.draw(spriteBatch, "X: " + building.bounds.x + ", Y: " + building.bounds.y,
 					building.bounds.x, building.bounds.y + 32f);
 				font.draw(spriteBatch, "W: " + building.bounds.width + ", H: " + building.bounds.height,
 					building.bounds.x, building.bounds.y + 16f);
 			spriteBatch.end();
 		}
+		
+		shapeBatch.begin(ShapeType.Filled);
+		shapeBatch.setColor(1f, 1f, 1f, 1f);
+		shapeBatch.rect(world.player.bounds.x, world.player.bounds.y,
+				world.player.bounds.width, world.player.bounds.height);
+		shapeBatch.end();
 	}
 	
 	public void dispose() {
+		spriteBatch.dispose();
 		shapeBatch.dispose();
 	}
 

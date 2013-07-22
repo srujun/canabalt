@@ -1,72 +1,53 @@
 package com.srujun.canabalt.entities;
 
-import java.lang.Math;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 
-public class World {
+public class World extends Entity {
 
 	public Player player;
-	public ArrayList<Building> buildingsArray = new ArrayList<Building>();
+	public ArrayList<Building> buildings = new ArrayList<Building>();
+	
+	public OrthographicCamera camera;
 	
 	public World() {
 		create();
 	}
 	
+	@Override
 	public void create() {
 		Gdx.app.log("Canabalt", "World.create()");
 		
-		player = new Player(928f, 608f);
+		camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		camera.setToOrtho(false);
+		 
+		player = new Player(300f, 608f);
 		
-		buildingsArray.add(new Building(0f, 0f, generateBuildingWidth(), generateBuildingHeight()));
+		buildings.add(new Building(0f, 0f, Building.generateBuildingWidth(), Building.generateBuildingHeight()));
 		
-		for(int i = 1;i < 2;++i) {
-			buildingsArray.add(new Building(buildingsArray.get(i - 1).bounds.width + generateBuildingDistance(),
-					0f, generateBuildingWidth(), generateBuildingHeight()));
+		for(int i = 1;i < 10;++i) {
+			Building prevBuilding = buildings.get(i - 1);
+			buildings.add(new Building(Building.generateBuildingPosition(prevBuilding),
+					0f, Building.generateBuildingWidth(), Building.generateBuildingHeight(prevBuilding)));
 		}
 	}
 	
+	@Override
 	public void update(float delta) {
-	}
-	
-	/*
-	 * Minimum width: 240px
-	 * Maximum width: 860px
-	 */
-	private float generateBuildingWidth() {
-		return (float)(240f + (int)(Math.random() * 621f));	
-	}
-	
-	/*
-	 * Minimum height: 64px
-	 * Maximum height: 574px
-	 * 
-	 * Maximum generated difference above previous height: 96px
-	 */
-	private float generateBuildingHeight() {
-		if(buildingsArray.size() < 1)
-			return (float)(64f + (int)(Math.random() * 511f));
-		else {
-			float prevHeight = buildingsArray.get(buildingsArray.size() - 1).bounds.height;
-			if((prevHeight + 96f) >= 574f) {
-				// if prevHeight + maxJumpHeight >  maxPossibleHeight
-				// set the range to [minimum, maximum]
-				return (float)(64f + (int)(Math.random() * 511f));
-			} else {
-				// if prevHeight + maxJumpHeight is in range of allowed maxHeight
-				// set the range to [minimum, (prevHeight + 96)]
-				return (float)(64f + (int)(Math.random() * (prevHeight + 33f)));
-			}
+		//camera.position.x += player.velocity.x * delta;
+		camera.update();
+		player.update(delta);
+		
+		if(player.bounds.overlaps(buildings.get(0).bounds)) {
+			player.bounds.y = buildings.get(0).bounds.y + buildings.get(0).bounds.height;
+		}
+		
+		if(Gdx.input.isKeyPressed(Keys.SPACE)) {
+			
 		}
 	}
 	
-	/*
-	 * Minimum distance: 64px
-	 * Maximum distance: 192px
-	 */
-	private float generateBuildingDistance() {
-		return (float)(64f + (int)(Math.random() * 119f));
-	}
-
 }
